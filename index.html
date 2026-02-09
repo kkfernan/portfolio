@@ -148,27 +148,101 @@
 
     /* mobile stack */
     @media (max-width: 860px){
-      .grid{
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        gap: 14px;
-        padding-top: 8px;
-      }
-      .center{ order:-1; }
-      .top-left,.top-right,.mid-left,.mid-right,.bot-left,.bot-right{
-        justify-self:stretch;
-      }
-      .island{
-        flex-direction:row;
-        justify-content:flex-start;
-        gap: 14px;
-        padding: 12px 14px;
-        pointer-events:auto;
-      }
-      .icon{ width:46px; height:46px; }
-      .label{ font-size: 13px; }
-      .me{ width: 150px; height: 150px; }
-    }
+  .wrap{
+    padding: 22px 14px 28px;
+  }
+
+  .grid{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 12px;
+    width: min(680px, 100%);
+  }
+
+  /* Center goes first */
+  .center{
+    grid-column: auto;
+    grid-row: auto;
+    order: -1;
+    text-align: center;
+    padding: 6px 6px 10px;
+  }
+
+  .me{
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 4px;
+  }
+
+  .kicker{
+    margin-bottom: 8px;
+  }
+
+  h1{
+    font-size: clamp(20px, 5.5vw, 28px);
+    margin: 8px 0 10px;
+  }
+
+  .cta{
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+  }
+
+  /* Islands become a tidy “menu” list */
+  .top-left,.top-right,.mid-left,.mid-right,.bot-left,.bot-right{
+    grid-column:auto;
+    grid-row:auto;
+    justify-self:stretch;
+    align-self:stretch;
+  }
+
+  .island{
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.22);
+    outline: 1px solid rgba(215,209,200,.9);
+  }
+
+  .island:active{
+    background: rgba(255,255,255,.35);
+  }
+
+  .icon{
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+  }
+
+  .label{
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  /* Bigger tap targets + better focus */
+  .island:focus-visible{
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  .footer{
+    margin-top: 16px;
+    padding: 0 6px;
+  }
+}
+
+@media (max-width: 420px){
+  .me{ width: 128px; height: 128px; }
+  .island{ padding: 11px 12px; }
+  .label{ font-size: 13px; }
+}
+
+
+    
   </style>
 </head>
 
