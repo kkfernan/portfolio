@@ -135,7 +135,7 @@ h2{
 .leftCol h2{
   margin: 0 0 10px;
   font-size: var(--h2);
-  font-weight: 620;
+  font-weight: 600;
 }
 .leftCol p, .leftCol li{
   color: var(--muted);
