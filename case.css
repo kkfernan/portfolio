@@ -169,8 +169,11 @@ h2{
 
 /* Single-column blocks */
 .oneCol{
-  padding: 18px 0;
+  padding: 22px 0;
+  display: flex;
+  justify-content: center; /* centers the column */
 }
+
 .oneCol h2{
   margin: 0 0 10px;
   font-size: var(--h2);
