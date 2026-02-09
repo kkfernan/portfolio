@@ -131,4 +131,139 @@
     .top-right  { grid-column:3; grid-row:1; justify-self:center; align-self:center; }
     .mid-left   { grid-column:1; grid-row:2; justify-self:center; align-self:center; }
     .mid-right  { grid-column:3; grid-row:2; justify-self:center; align-self:center; }
-    .bot-left   { grid-column:
+    .bot-left   { grid-column:1; grid-row:3; justify-self:center; align-self:center; }
+    .bot-right  { grid-column:3; grid-row:3; justify-self:center; align-self:center; }
+
+    /* footer whisper */
+    .footer{
+      margin-top: 24px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align:center;
+      max-width: 520px;
+      line-height:1.4;
+    }
+
+    /* mobile: stack islands + keep center prominent */
+    @media (max-width: 860px){
+      .grid{
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 16px;
+        padding-top: 8px;
+      }
+      .center{ grid-column:auto; grid-row:auto; order:-1; }
+      .top-left,.top-right,.mid-left,.mid-right,.bot-left,.bot-right{
+        grid-column:auto; grid-row:auto; justify-self:stretch;
+      }
+      .island{
+        flex-direction:row;
+        justify-content:flex-start;
+        gap: 14px;
+        padding: 12px 14px;
+      }
+      .icon{ width:46px; height:46px; }
+      .label{ font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <a class="logo" href="#">yourname</a>
+
+    <main class="grid">
+      <!-- Left column -->
+      <a class="island top-left" href="garden.html">
+        <span class="icon" aria-hidden="true">
+          <!-- simple leaf doodle -->
+          <svg viewBox="0 0 64 64">
+            <path d="M18 42c10-2 18-10 20-22 8 8 10 20 2 28-7 7-18 7-22-6z"/>
+            <path d="M20 44c3-10 10-18 22-22"/>
+            <path d="M12 24c6 2 10 6 12 12"/>
+          </svg>
+        </span>
+        <span class="label">Garden</span>
+      </a>
+
+      <a class="island mid-left" href="gifts.html">
+        <span class="icon" aria-hidden="true">
+          <!-- flower doodle -->
+          <svg viewBox="0 0 64 64">
+            <path d="M32 52V30"/>
+            <path d="M32 30c-10 0-14-10-8-16 5-5 13-1 14 6 1-7 9-11 14-6 6 6 2 16-8 16z"/>
+            <path d="M24 52h16"/>
+          </svg>
+        </span>
+        <span class="label">Gifts</span>
+      </a>
+
+      <a class="island bot-left" href="products.html">
+        <span class="icon" aria-hidden="true">
+          <!-- fruit doodle -->
+          <svg viewBox="0 0 64 64">
+            <path d="M18 44c0-10 7-18 14-18s14 8 14 18-7 16-14 16-14-6-14-16z"/>
+            <path d="M28 24c0-6 4-10 10-10"/>
+            <path d="M40 16c2 2 4 4 6 4"/>
+          </svg>
+        </span>
+        <span class="label">Products</span>
+      </a>
+
+      <!-- Center -->
+      <section class="center">
+        <div class="kicker">Welcome — a product design portfolio</div>
+        <h1>
+          Hi, I’m <u>Your Name</u>. I design software that helps people make confident decisions — from complex workflows to calm, clear UI.
+        </h1>
+        <a class="cta" href="about.html">Read more →</a>
+      </section>
+
+      <!-- Right column -->
+      <a class="island top-right" href="offerings.html">
+        <span class="icon" aria-hidden="true">
+          <!-- cup doodle -->
+          <svg viewBox="0 0 64 64">
+            <path d="M22 22h20v16c0 8-6 14-10 14s-10-6-10-14V22z"/>
+            <path d="M42 28h6c4 0 4 10-6 10"/>
+            <path d="M24 22c2-4 6-6 8-6"/>
+          </svg>
+        </span>
+        <span class="label">Offerings</span>
+      </a>
+
+      <a class="island mid-right" href="about.html">
+        <span class="icon" aria-hidden="true">
+          <!-- little character -->
+          <svg viewBox="0 0 64 64">
+            <path d="M22 36c0-8 6-14 10-14s10 6 10 14-6 14-10 14-10-6-10-14z"/>
+            <path d="M26 34h0"/>
+            <path d="M38 34h0"/>
+            <path d="M28 40c4 4 8 4 12 0"/>
+            <path d="M20 28l-6-6"/>
+            <path d="M44 28l6-6"/>
+          </svg>
+        </span>
+        <span class="label">About</span>
+      </a>
+
+      <a class="island bot-right" href="newsletter.html">
+        <span class="icon" aria-hidden="true">
+          <!-- mailbox -->
+          <svg viewBox="0 0 64 64">
+            <path d="M16 44h32v12H16z"/>
+            <path d="M18 44l14-10 14 10"/>
+            <path d="M22 28h12"/>
+            <path d="M46 30v-8c0-6-4-10-10-10H18v18"/>
+          </svg>
+        </span>
+        <span class="label">Newsletter</span>
+      </a>
+    </main>
+
+    <div class="footer">
+      Hi, internet wanderer. Based in San Francisco. Currently building calm, legible software and a small library of case studies.
+    </div>
+  </div>
+</body>
+</html>
