@@ -295,101 +295,79 @@
   </div>
 
   <script>
-    (function(){
-      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  (function(){
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      const islands = Array.from(document.querySelectorAll(".island"));
-      const grid = document.getElementById("grid");
+    const islands = Array.from(document.querySelectorAll(".island"));
 
-      const meWhole = document.getElementById("meWhole");
-      const head = document.getElementById("head");
-      const eyes = document.getElementById("eyes");
-      const arm = document.getElementById("arm");
+    const meWhole = document.getElementById("meWhole");
+    const head = document.getElementById("head");
+    const eyes = document.getElementById("eyes");
 
-      // Track cursor globally
-      let mouseX = 0, mouseY = 0;
-      window.addEventListener("mousemove", (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      }, { passive: true });
+    let activeIsland = null;
 
-      // Active hover target (an island element) or null
-      let activeIsland = null;
-      islands.forEach(el => {
-        el.addEventListener("mouseenter", () => { activeIsland = el; });
-        el.addEventListener("mouseleave", () => { activeIsland = null; resetPose(); });
-        // For keyboard focus accessibility
-        el.addEventListener("focus", () => { activeIsland = el; });
-        el.addEventListener("blur", () => { activeIsland = null; resetPose(); });
-      });
+    islands.forEach(el => {
+      el.addEventListener("mouseenter", () => { activeIsland = el; });
+      el.addEventListener("mouseleave", () => { activeIsland = null; resetPose(); });
 
-      function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+      // Keyboard accessibility
+      el.addEventListener("focus", () => { activeIsland = el; });
+      el.addEventListener("blur", () => { activeIsland = null; resetPose(); });
+    });
 
-      function getCenterClientRect(el){
-        const r = el.getBoundingClientRect();
-        return { cx: r.left + r.width/2, cy: r.top + r.height/2 };
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    function getCenter(el){
+      const r = el.getBoundingClientRect();
+      return { cx: r.left + r.width/2, cy: r.top + r.height/2 };
+    }
+
+    function angleTo(targetX, targetY){
+      const meRect = meWhole.ownerSVGElement.getBoundingClientRect();
+      const meCX = meRect.left + meRect.width/2;
+      const meCY = meRect.top + meRect.height/2;
+      const dx = targetX - meCX;
+      const dy = targetY - meCY;
+      return Math.atan2(dy, dx); // radians
+    }
+
+    function applyPoseToIsland(islandEl){
+      if (prefersReduced || !islandEl) return;
+
+      const {cx, cy} = getCenter(islandEl);
+      const a = angleTo(cx, cy);
+
+      // head turn (small)
+      const headDeg = clamp(a * (180/Math.PI), -22, 22);
+
+      // eyes shift (tiny)
+      const eyeX = clamp(Math.cos(a) * 4, -4, 4);
+      const eyeY = clamp(Math.sin(a) * 3, -3, 3);
+
+      // subtle lean so it feels alive
+      const leanDeg = clamp(headDeg * 0.25, -6, 6);
+
+      meWhole.setAttribute("transform", `translate(100 105) rotate(${leanDeg})`);
+      head.setAttribute("transform", `translate(0 -30) rotate(${headDeg})`);
+      eyes.setAttribute("transform", `translate(${eyeX} ${-6 + eyeY})`);
+    }
+
+    function resetPose(){
+      meWhole.setAttribute("transform", "translate(100 105)");
+      head.setAttribute("transform", "translate(0 -30)");
+      eyes.setAttribute("transform", "translate(0 -6)");
+    }
+
+    function tick(){
+      if (activeIsland){
+        applyPoseToIsland(activeIsland);
       }
+      requestAnimationFrame(tick);
+    }
 
-      // Compute angle from "me" center to a target point
-      function angleTo(targetX, targetY){
-        const meRect = meWhole.ownerSVGElement.getBoundingClientRect();
-        const meCX = meRect.left + meRect.width/2;
-        const meCY = meRect.top + meRect.height/2;
-        const dx = targetX - meCX;
-        const dy = targetY - meCY;
-        return Math.atan2(dy, dx); // radians
-      }
+    tick();
+  })();
+</script>
 
-      function applyPose(targetX, targetY){
-        if (prefersReduced) return;
-
-        const a = angleTo(targetX, targetY);
-
-        // Rotate head a little toward target
-        const headDeg = clamp(a * (180/Math.PI), -25, 25);
-
-        // Eyes shift: convert angle to small x/y
-        const eyeX = clamp(Math.cos(a) * 4, -4, 4);
-        const eyeY = clamp(Math.sin(a) * 3, -3, 3);
-
-        // Arm rotates more than head to "point"
-        const armDeg = clamp(a * (180/Math.PI), -60, 60);
-
-        // Whole body micro-lean (subtle)
-        const leanDeg = clamp(headDeg * 0.35, -8, 8);
-
-        meWhole.setAttribute("transform", `translate(100 105) rotate(${leanDeg})`);
-        head.setAttribute("transform", `translate(0 -30) rotate(${headDeg})`);
-        eyes.setAttribute("transform", `translate(${eyeX} ${-6 + eyeY})`);
-        arm.setAttribute("transform", `translate(20 10) rotate(${armDeg})`);
-      }
-
-      function resetPose(){
-        meWhole.setAttribute("transform", "translate(100 105)");
-        head.setAttribute("transform", "translate(0 -30)");
-        eyes.setAttribute("transform", "translate(0 -6)");
-        arm.setAttribute("transform", "translate(20 10)");
-      }
-
-      // Animation loop (smooth + cheap)
-      function tick(){
-        if (activeIsland){
-          // If you want “point toward cursor while hovering island”
-          // use mouseX/mouseY. If you want “point to island center” use rect center.
-          const useCursor = true;
-
-          if (useCursor){
-            applyPose(mouseX, mouseY);
-          } else {
-            const {cx, cy} = getCenterClientRect(activeIsland);
-            applyPose(cx, cy);
-          }
-        }
-        requestAnimationFrame(tick);
-      }
-
-      tick();
-    })();
-  </script>
 </body>
 </html>
