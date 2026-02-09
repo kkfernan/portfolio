@@ -10,7 +10,29 @@ body{
   margin:0;
   background:var(--bg);
   color:var(--ink);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  font-family: "Source Sans 3", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+}
+
+h1{
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+h2{
+  font-weight: 600;
+}
+
+.label,
+.kicker{
+  font-weight: 400;
+}
+
+.metaCard .k{
+  font-weight: 400;
+}
+
+.metaCard .v{
+  font-weight: 600;
 }
 
 .wrap{
