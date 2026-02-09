@@ -146,6 +146,23 @@ h2{
   margin: 10px 0 0;
   padding-left: 18px;
 }
+/* --- Two-column: ensure media fills the right column --- */
+.twoCol{
+  align-items: start;
+}
+
+.twoCol > .media,
+.twoCol > figure.media{
+  width: 100%;
+  max-width: none;
+}
+
+.twoCol .media img{
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: none;
+}
 
 /* Media block */
 .media{
